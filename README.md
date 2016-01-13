@@ -1,26 +1,22 @@
 # bspc [![Latest Release](https://img.shields.io/github/release/marionauta/bspc.svg)][2]
 
-Alternative [bspc][1] command implementation in Rust.
+Alternative bspc command implementation in Rust. You can control [bspwm][1] with it.
 
-This is mostly a learning project. Use with caution.
+This is mostly a learning project. Nothing should break, but if you see an error please tell me.
 
 ## Installing
 
 ### Releases
 
-Go to the [latest release][2], download it, extract it and move the binary somewhere in yout path.
+Go to the [latest release][2], download it, extract it and move the binary somewhere in your PATH.
 
 ### Cargo install
 
-```
-cargo install bspc
-```
+    cargo install bspc
 
 This is the easiest way. Also you can specify the root path with `--root DIR` so for example
 
-```
-cargo install --root /usr/local bspc
-```
+    cargo install --root /usr/local bspc
 
 will install `bspc` in `/usr/local/bin`.
 
