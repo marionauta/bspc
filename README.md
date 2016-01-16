@@ -1,4 +1,7 @@
-# bspc [![Latest Release](https://img.shields.io/github/release/marionauta/bspc.svg)][2]
+# bspc
+
+[![Travis Build Status](https://travis-ci.org/marionauta/bspc.svg)][2]
+[![Latest Release](https://img.shields.io/github/release/marionauta/bspc.svg)][3]
 
 Alternative bspc command implementation in Rust. You can control [bspwm][1] with it.
 
@@ -25,4 +28,5 @@ will install `bspc` in `/usr/local/bin`.
 Anyone is welcome to contribute.
 
 [1]: https://github.com/baskerville/bspwm
-[2]: https://github.com/marionauta/bspc/releases/latest
+[2]: https://travis-ci.org/marionauta/bspc
+[3]: https://github.com/marionauta/bspc/releases/latest
