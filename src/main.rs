@@ -27,7 +27,7 @@ fn main() {
     if message.len() < 1 {
         err("No arguments given.", 1);
     }
-    
+
     let mut i = 0;
     let mut buffer = [0; BUFSIZ];
     for string in message {
@@ -52,12 +52,12 @@ fn main() {
     drop(stream);
 
     match buffer[0] as i32 {
-        1 | 4 => {},
+        1 | 4 => {}
         3 => err("Unknown command.", 3),
         2 => err("Invalid syntax.", 2),
         _ => {
             let message = String::from_utf8_lossy(&buffer[0..size]);
             print!("{}", message);
-        },
+        }
     }
 }
