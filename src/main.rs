@@ -8,6 +8,9 @@ use std::io::{Read, Write};
 use std::process;
 use unix_socket::UnixStream;
 
+const BUFSIZ: usize = libc::BUFSIZ as usize;
+const SOCKET_ENV_VAR: &'static str = "BSPWM_SOCKET";
+
 /// Prints error message and quits with error code.
 ///
 /// # Examples
@@ -20,7 +23,10 @@ fn err(message: &str, code: i32) {
     process::exit(code);
 }
 
-const BUFSIZ: usize = libc::BUFSIZ as usize;
+
+fn socket_file() -> String {
+    format!("/tmp/bspwm{}_{}_{}-socket", "", 0, 0)
+}
 
 fn main() {
     let message = env::args().skip(1).collect::<Vec<String>>();
@@ -40,7 +46,13 @@ fn main() {
         i += 1;
     }
 
-    let stream = UnixStream::connect("/tmp/bspwm_0_0-socket");
+    // An environment variable can be set by bspwm (or the user) to tell bspc
+    // where the socket file is. If the variable is set, use it. If not, use
+    // the new scheme.
+    let stream_file = env::var(SOCKET_ENV_VAR)
+                          .unwrap_or(socket_file());
+
+    let stream = UnixStream::connect(stream_file);
     if stream.is_err() {
         err("Failed to connect to the socket.", 1);
     }
