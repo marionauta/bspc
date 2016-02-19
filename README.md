@@ -11,7 +11,7 @@ This is mostly a learning project. Nothing should break, but if you see an error
 
 ### Releases
 
-Go to the [latest release][2], download it, extract it and move the binary somewhere in your PATH.
+Go to the [latest release][3], download it, extract it and move the binary somewhere in your PATH.
 
 ### Cargo install
 
@@ -26,6 +26,7 @@ will install `bspc` in `/usr/local/bin`.
 ## Contributing
 
 Anyone is welcome to contribute.
+All contributions will be licensed under the MIT license.
 
 [1]: https://github.com/baskerville/bspwm
 [2]: https://travis-ci.org/marionauta/bspc
