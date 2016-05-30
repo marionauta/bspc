@@ -3,12 +3,14 @@
 extern crate libc;
 extern crate unix_socket;
 
+use libc::{EXIT_FAILURE, EXIT_SUCCESS};
 use std::env;
 use std::io::{Read, Write};
 use std::process;
 use unix_socket::UnixStream;
 
 const BUFSIZ: usize = libc::BUFSIZ as usize;
+const FAILURE_MESSAGE: i32 = 7;
 const SOCKET_ENV_VAR: &'static str = "BSPWM_SOCKET";
 
 /// Prints error message and quits with error code.
@@ -63,13 +65,16 @@ fn main() {
     let size = stream.read(&mut buffer).unwrap();
     drop(stream);
 
-    match buffer[0] as i32 {
-        1 | 4 => {}
-        3 => err("Unknown command.", 3),
-        2 => err("Invalid syntax.", 2),
-        _ => {
-            let message = String::from_utf8_lossy(&buffer[0..size]);
-            print!("{}", message);
-        }
-    }
+    // Force a null character at the end of the message.
+    buffer[size] = 0;
+
+    let (status, offset) = match buffer[0] as i32 {
+        FAILURE_MESSAGE => (EXIT_FAILURE, 1),
+        _ => (EXIT_SUCCESS, 0),
+    };
+
+    let message = String::from_utf8_lossy(&buffer[offset..size]);
+    print!("{}", message);
+
+    process::exit(status);
 }
