@@ -25,7 +25,6 @@ fn err(message: &str, code: i32) {
     process::exit(code);
 }
 
-
 fn socket_file() -> String {
     format!("/tmp/bspwm{}_{}_{}-socket", "", 0, 0)
 }
@@ -54,12 +53,15 @@ fn main() {
     let stream_file = env::var(SOCKET_ENV_VAR)
                           .unwrap_or(socket_file());
 
-    let stream = UnixStream::connect(stream_file);
-    if stream.is_err() {
-        err("Failed to connect to the socket.", 1);
-    }
+    let mut stream = {
+        let maybe_stream = UnixStream::connect(stream_file);
 
-    let mut stream = stream.unwrap();
+        if let Err(_) = maybe_stream {
+            err("Failed to connect to the socket.", 1);
+        }
+
+        maybe_stream.unwrap()
+    };
 
     stream.write(&buffer[..i]).unwrap();
     let size = stream.read(&mut buffer).unwrap();
