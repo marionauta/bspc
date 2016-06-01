@@ -30,14 +30,16 @@ fn socket_file() -> String {
 }
 
 fn main() {
-    let message = env::args().skip(1).collect::<Vec<String>>();
-    if message.len() < 1 {
-        err("No arguments given.", 1);
-    }
-
     let mut i = 0;
     let mut buffer = [0; BUFSIZ];
-    for string in message {
+
+    // We add all the command line arguments to 'buffer', separated by a null
+    // character (\0). At the end, 'i' will store the buffer's length, so we
+    // can send it (and nothing more) to the socket stream.
+    //
+    // We skip the first argument because in most platforms it contains the
+    // executable's name.
+    for string in env::args().skip(1) {
         for c in string.chars() {
             buffer[i] = c as u8;
             i += 1;
@@ -45,6 +47,10 @@ fn main() {
 
         buffer[i] = 0;
         i += 1;
+    }
+
+    if i == 0 {
+        err("No arguments given.", 1);
     }
 
     // An environment variable can be set by bspwm (or the user) to tell bspc
