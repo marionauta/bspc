@@ -57,7 +57,7 @@ fn main() {
     // where the socket file is. If the variable is set, use it. If not, use
     // the new scheme.
     let stream_file = env::var(SOCKET_ENV_VAR)
-                          .unwrap_or(socket_file());
+                          .unwrap_or_else(|_| socket_file());
 
     let mut stream = {
         let maybe_stream = UnixStream::connect(stream_file);
