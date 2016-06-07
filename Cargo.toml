@@ -11,3 +11,6 @@ license = "MIT"
 [dependencies]
 libc = "0.2"
 unix_socket = "0.5"
+
+[profile.release]
+lto = true
